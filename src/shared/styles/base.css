@@ -139,6 +139,45 @@ main.wrap {
   text-decoration: underline;
 }
 
+.prose strong {
+  color: var(--text);
+}
+
+.prose ol,
+.prose ul {
+  margin: 0 0 1em;
+  padding-left: 1.35em;
+  list-style: revert;
+}
+
+.prose li {
+  margin-bottom: 0.4em;
+}
+
+/* 규칙 설명의 족보표. 좁은 화면에서 표가 페이지를 밀지 않도록 표만 가로 스크롤한다. */
+.prose table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 0 0 1.4em;
+  font-size: 0.9rem;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid var(--border);
+  padding: 7px 10px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.prose thead th {
+  background: var(--bg-muted);
+  color: var(--text);
+  font-weight: 700;
+}
+
 @media (min-width: 640px) {
   .page-title {
     font-size: 1.65rem;

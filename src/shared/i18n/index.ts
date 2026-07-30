@@ -33,18 +33,32 @@ const CATALOGS: Record<Locale, Record<MessageKey, string>> = { ko, en, ja };
 /** {name} 자리에 넣을 값들. */
 export type MessageVars = Record<string, string | number>;
 
-/**
- * 메시지를 가져오고 {변수}를 치환한다.
- *
- *   t('ko', 'footer.rights', { year: 2026 })  → '© 2026 미니게임 모음'
- */
-export function t(locale: Locale, key: MessageKey, vars?: MessageVars): string {
-  const template = CATALOGS[locale][key];
+/** {name} 을 값으로 바꾼다. 넘기지 않은 이름은 그대로 남겨서 누락이 눈에 띄게 한다. */
+export function interpolate(template: string, vars?: MessageVars): string {
   if (!vars) return template;
   return template.replace(/\{(\w+)\}/g, (whole, name: string) =>
     Object.prototype.hasOwnProperty.call(vars, name) ? String(vars[name]) : whole,
   );
 }
+
+/**
+ * 카탈로그 묶음으로 조회 함수를 만든다.
+ *
+ * 게임마다 자기 문구를 자기 폴더에 두고 이걸로 조회 함수를 만든다.
+ * 사이트 공용 카탈로그에 게임 문구를 다 밀어넣으면 그 파일이 쓰레기통이 되고,
+ * 모든 페이지가 안 쓰는 문구까지 내려받게 된다.
+ */
+export function createTranslator<K extends string>(catalogs: Record<Locale, Record<K, string>>) {
+  return (locale: Locale, key: K, vars?: MessageVars): string =>
+    interpolate(catalogs[locale][key], vars);
+}
+
+/**
+ * 사이트 공용 메시지를 가져온다.
+ *
+ *   t('ko', 'footer.rights', { year: 2026 })  → '© 2026 미니게임 모음'
+ */
+export const t = createTranslator(CATALOGS);
 
 /** 로케일을 미리 묶어둔 t. 한 페이지 안에서 같은 로케일을 반복해 넘기지 않으려고 쓴다. */
 export function translator(locale: Locale) {

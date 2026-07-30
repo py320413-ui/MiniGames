@@ -20,7 +20,7 @@ export const GAMES: GameMeta[] = [
   {
     slug: 'yacht',
     emoji: '🎲',
-    status: 'soon',
+    status: 'live',
     modes: ['solo', 'local-2p'],
     i18n: {
       ko: {
