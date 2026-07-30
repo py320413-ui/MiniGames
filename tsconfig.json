@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    /* node 는 vite.config.ts / vitest.config.ts 가 fs·path 를 쓰기 때문에 필요하다.
+       브라우저 코드(src/games, src/shared)에서는 process·fs 를 쓰지 말 것.
+       Vite 가 그걸 번들에 넣지 못해 런타임에 조용히 깨진다. */
+    "types": ["vite/client", "node"],
+
+    /* 엄격하게 간다. 게임 로직은 배열 인덱싱이 많아서
+       noUncheckedIndexedAccess가 실제 버그를 잡아준다. */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Node의 타입 스트리핑(scripts/*.mjs에서 .ts를 직접 import)과 호환되도록.
+       enum·namespace처럼 코드 생성이 필요한 문법은 쓰지 않는다. */
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "allowImportingTsExtensions": true,
+
+    "noEmit": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src", "vite.config.ts", "vitest.config.ts"]
+}

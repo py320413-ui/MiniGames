@@ -1,0 +1,24 @@
+{
+  "name": "minigames",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "여러 미니게임을 모은 다국어 정적 사이트",
+  "scripts": {
+    "gen": "node scripts/gen-pages.mjs",
+    "predev": "npm run gen",
+    "dev": "vite",
+    "prebuild": "npm run gen",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.0",
+    "vitest": "^4.1.10"
+  }
+}

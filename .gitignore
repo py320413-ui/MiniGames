@@ -1,0 +1,38 @@
+# 의존성
+node_modules/
+
+# 빌드 산출물 — 커밋하지 않는다. GitHub Actions가 빌드해서 Pages로 배포한다.
+dist/
+
+# ── scripts/gen-pages.mjs 산출물 ────────────────────────────────
+# 아래는 전부 생성물이다. 손으로 고치지 말 것.
+# 고칠 곳은 src/shared/html.ts(구조)와 src/shared/i18n/(문구)다.
+
+# 생성 파일 목록. vite.config.ts가 진입점을 여기서 읽는다.
+.generated/
+
+# 루트에 찍히는 HTML 진입점.
+# [주의] 언어를 추가하면(예: de) 여기에 /de/ 를 반드시 추가할 것.
+#        안 그러면 생성된 HTML이 통째로 커밋된다.
+/index.html
+/en/
+/ja/
+
+# 게임 페이지(기본 로케일). 로케일별 게임 페이지는 위의 /en/, /ja/ 가 덮는다.
+/games/
+
+# 정적 페이지(4단계에서 추가 예정).
+/about/
+/privacy/
+/contact/
+
+# public/ 안에서도 이 둘은 생성물이다. 나머지 public 파일은 커밋한다.
+public/sitemap.xml
+public/robots.txt
+
+# 편집기 · OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.local

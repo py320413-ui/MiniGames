@@ -1,0 +1,146 @@
+/**
+ * [역할]
+ *   리셋, 타이포그래피, 페이지 폭 같은 바탕. 특정 컴포넌트에 속하지 않는 것만 둔다.
+ *
+ * [설계 방향]
+ *   모바일 우선. 기본 스타일이 좁은 화면 기준이고, 넓어질 때만 미디어쿼리로 얹는다.
+ *   게임 사이트 트래픽은 대부분 모바일이라 이쪽이 기본값이어야 한다.
+ *
+ *   글자 크기와 줄간격은 포털 감각에 맞춰 조금 촘촘하게 잡았다.
+ *   본문 15px / 줄간격 1.6 은 한국어 화면에서 읽기 편한 쪽에 가깝다.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  /* 헤더 + 본문 + 푸터를 세로로 쌓아 푸터가 항상 화면 아래에 붙게 한다. */
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.35;
+  margin: 0 0 0.5em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 페이지 가로 폭을 잡는 공용 컨테이너. */
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+
+/* <main> 은 남는 세로 공간을 먹어서 푸터를 아래로 민다. */
+main.wrap {
+  flex: 1;
+  padding-block: 24px 44px;
+}
+
+.page-title {
+  font-size: 1.4rem;
+  margin-bottom: 0.25em;
+}
+
+.page-intro {
+  color: var(--text-sub);
+  font-size: 0.93rem;
+  margin-bottom: 1.5em;
+}
+
+/* 키보드 사용자가 헤더를 건너뛰고 본문으로 갈 수 있게 한다. 평소엔 화면 밖. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: 0 0 var(--radius-sm) 0;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* 게임 페이지의 규칙 설명 본문. 검색 유입을 담당하는 부분이라 읽기 편해야 한다. */
+.prose {
+  max-width: 68ch;
+  color: var(--text-sub);
+}
+
+.prose h2 {
+  color: var(--text);
+  font-size: 1.15rem;
+  margin-top: 1.8em;
+  padding-bottom: 0.4em;
+  border-bottom: 1px solid var(--border);
+}
+
+.prose h3 {
+  color: var(--text);
+  font-size: 1rem;
+  margin-top: 1.4em;
+}
+
+.prose a {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+@media (min-width: 640px) {
+  .page-title {
+    font-size: 1.65rem;
+  }
+}

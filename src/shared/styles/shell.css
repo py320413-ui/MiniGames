@@ -1,0 +1,284 @@
+/**
+ * [역할]
+ *   모든 페이지에 공통으로 들어가는 조각들 — 헤더, 언어 전환기, 언어 제안 배너,
+ *   게임 카드 그리드, 광고 자리, 푸터.
+ *
+ * [디자인 방향]
+ *   포털 감각을 절반쯤 섞었다. 흰 헤더에 얇은 회색 경계선, 그린 강조,
+ *   좁은 라운드, 촘촘한 카드. 그림자는 hover 에서만 살짝 준다.
+ *
+ * [구성 순서]
+ *   1. 헤더 · 브랜드
+ *   2. 언어 전환기
+ *   3. 언어 제안 배너
+ *   4. 게임 카드
+ *   5. 광고 자리
+ *   6. 푸터
+ */
+
+/* ═══ 1. 헤더 · 브랜드 ═══════════════════════════════════════ */
+
+.site-header {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  min-height: 52px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--text);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: -0.03em;
+}
+
+.brand:hover {
+  text-decoration: none;
+}
+
+/* 로고 이미지 없이 포털다운 인상을 만드는 최소 장치.
+   진한 그린 위에 이모지를 얹으면 색이 부딪혀서, 옅은 그린 바탕에 얹는다. */
+.brand__mark {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-weak);
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+/* ═══ 2. 언어 전환기 ═════════════════════════════════════════ */
+
+/* 평범한 <a> 목록이다. JS 없이 동작하고 크롤러도 각 언어판을 따라간다. */
+.lang-switcher {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-muted);
+}
+
+.lang-link {
+  padding: 4px 9px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  white-space: nowrap;
+  transition: color 0.12s, background 0.12s;
+}
+
+.lang-link:hover {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.lang-link.is-current {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 3px 8px;
+  color: var(--accent-hover);
+  font-weight: 700;
+}
+
+/* ═══ 3. 언어 제안 배너 ══════════════════════════════════════ */
+
+/* 방문자의 브라우저 언어가 현재 페이지와 다를 때만 shell.ts 가 띄운다.
+   강제로 보내지 않고 제안만 한다 — 리다이렉트하면 크롤러가 한 언어만 보고 간다. */
+.lang-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 9px 16px;
+  background: var(--accent-weak);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.87rem;
+  color: var(--text-sub);
+}
+
+.lang-banner__go {
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+}
+
+.lang-banner__go:hover {
+  background: var(--accent-hover);
+  text-decoration: none;
+}
+
+.lang-banner__dismiss {
+  padding: 4px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.lang-banner__dismiss:hover {
+  color: var(--text);
+}
+
+/* ═══ 4. 게임 카드 ═══════════════════════════════════════════ */
+
+/* auto-fit 덕분에 모바일/데스크톱용 분기를 따로 쓰지 않는다. */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(232px, 1fr));
+  gap: 12px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+  color: var(--text);
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+
+a.card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.card__emoji {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 4px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-muted);
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.card__title {
+  font-size: 1.02rem;
+  margin: 0;
+}
+
+.card__desc {
+  color: var(--text-sub);
+  font-size: 0.86rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.card__modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.card__mode {
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--bg-muted);
+  font-size: 0.73rem;
+  color: var(--text-dim);
+}
+
+.card__cta {
+  margin-top: 12px;
+  align-self: flex-start;
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+  font-size: 0.86rem;
+}
+
+a.card:hover .card__cta {
+  background: var(--accent-hover);
+}
+
+/* 아직 만들지 않은 게임. 링크가 아니라 안내 카드다. */
+.card--soon {
+  background: var(--bg-muted);
+  box-shadow: none;
+}
+
+.card--soon .card__emoji {
+  background: var(--bg);
+  filter: grayscale(1);
+  opacity: 0.65;
+}
+
+.card--soon .card__title {
+  color: var(--text-sub);
+}
+
+/* 카드 바탕이 이미 회색이라 칩까지 회색이면 칩 모양이 사라진다. 여기서만 흰 바탕으로. */
+.card--soon .card__mode {
+  background: var(--bg);
+}
+
+.card__badge {
+  margin-top: 12px;
+  align-self: flex-start;
+  padding: 4px 11px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+/* ═══ 5. 광고 자리 ═══════════════════════════════════════════ */
+
+/* [주의] 광고는 게임 조작 영역 근처에 두지 않는다. 실수 클릭을 유도하는 배치는
+   AdSense 정책 위반이고 계정 정지 사유다. 이 자리는 게임 '아래'에만 쓴다. */
+.ad-slot {
+  margin-block: 28px;
+}
+
+.ad-slot[hidden] {
+  display: none;
+}
+
+/* ═══ 6. 푸터 ════════════════════════════════════════════════ */
+
+.site-footer {
+  background: var(--bg-muted);
+  border-top: 1px solid var(--border);
+  padding-block: 22px;
+  color: var(--text-dim);
+  font-size: 0.84rem;
+}
+
+.site-footer p {
+  margin: 0 0 3px;
+}

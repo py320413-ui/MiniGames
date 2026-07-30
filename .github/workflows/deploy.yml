@@ -1,0 +1,58 @@
+# 빌드해서 GitHub Pages 로 배포한다.
+#
+# [사전 준비 — 최초 1회, 웹에서]
+#   리포 Settings → Pages → Source 를 "GitHub Actions" 로 바꿔야 한다.
+#   기본값인 "Deploy from a branch" 상태면 이 워크플로가 성공해도 사이트가 안 뜬다.
+#
+# [주의]
+#   - dist/ 는 커밋하지 않는다. 여기서 매번 새로 빌드한다.
+#   - Node 24 가 필요하다. scripts/gen-pages.mjs 가 .ts 를 타입 스트리핑으로 직접 실행한다.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 배포가 겹치지 않게 한 번에 하나만. 진행 중인 건 끝까지 두고 새 것을 기다리게 한다.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # 타입 검사와 테스트가 배포를 막는 관문이다. 깨진 채로 나가지 않게 한다.
+      - run: npm run test
+      - run: npm run build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

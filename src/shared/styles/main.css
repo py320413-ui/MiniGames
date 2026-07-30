@@ -1,0 +1,5 @@
+/* [역할] 스타일 진입점. 생성된 HTML 이 이 파일 하나만 <link> 로 건다.
+   [주의] 순서가 중요하다. 토큰 → 기본 → 셸 순으로 유지할 것. */
+@import './tokens.css';
+@import './base.css';
+@import './shell.css';
